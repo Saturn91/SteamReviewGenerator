@@ -1,6 +1,8 @@
 # Steam review Generator
 This website was made by Saturn91. It can be used to generate screenshots of fake review easily online.
 
+[check it out](https://saturn91.github.io/SteamReviewGenerator/)
+
 > please be aware that I did not include any steam assets and a watermark, people will realize this is a fake review on at least closer inspection!
 
 # Disclaimer

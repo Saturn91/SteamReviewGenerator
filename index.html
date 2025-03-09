@@ -35,7 +35,7 @@
             position: relative;
             display: grid;
             grid-template-columns: auto 400px;
-            grid-template-rows: auto 11px auto 8px;
+            grid-template-rows: auto auto auto auto;
             gap: 8px;
         }
         .profile {
@@ -64,25 +64,31 @@
             color: #c1dbf4;
         }
         .posted {
+            padding-top: 8px;
             font-size: 10px;
             color: #8091a2;
             grid-column: 2 / 3;
             grid-row: 2 / 3;
         }
         .review-text {
+            grid-row: 3 / 4;
             grid-column: 2 / 3; /* Second column */
-            grid-row: 3 / 5; /* Span across third and fourth rows */
             font-size: 13px;
             font-weight: normal;
             line-height: 17px;
             overflow-wrap: break-word;
         }
+        .helpfull-section {
+            /* 2nd column, 4rd row */
+            grid-column: 2 / 3;
+            grid-row: 4 / 5;
+        }
         .watermark {
             font-size: 10px;
             color: #8f98a0;
-            position: absolute;
-            grid-column: 1 / 2;
-            grid-row: 4 / 4;
+            grid-column: 1 / 2; /* First column */
+            grid-row: 4 / 5; /* Fourth row */
+            align-self: end; /* Align to the bottom */
         }
         button {
             padding: 10px;
@@ -103,6 +109,7 @@
     <div class="container">
         <textarea id="reviewInput" placeholder="Enter your review..."></textarea>
         <button onclick="generateReview()">Generate Review</button>
+        <label style="margin-left: 8px;">positive review</label><input type="checkbox" id="positive" checked onchange="changeRecommendation()">
         <div class="review" id="reviewPreview">
             <div class="profile">
                 <img id="profileImage" src="" alt="Profile Image">
@@ -122,12 +129,24 @@
                 </div>
             </div>
             <div class="review-text" id="reviewText">Your review will appear here...</div>
+            <div class="helpfull-section">
+                <hr style="background-color: #363f4c; height: 1x; margin-bottom: 0px;"/>
+                <img src="./res/helpfull_section.png" alt="Helpfull Section" style="height: 50px"/>
+            </div>
             <div class="watermark">Fake review by saturn91.dev</div>
         </div>
     </div>
 
     <script>
         const usernames = ["EpicGamer42", "NoobMaster69", "ShadowNinja", "xXProSniperXx", "GamerGirl2000"];
+
+        function changeRecommendation() {
+            const thumbsUp = document.getElementById("positive").checked;
+            const thumbsUpIcon = document.querySelector(".recommendation img");
+            thumbsUpIcon.src = thumbsUp ? "./res/icon_thumbsUp.png" : "./res/icon_thumbsDown.png";
+            thumbsUpIcon.alt = thumbsUp ? "Thumbs Up" : "Thumbs Down";
+            document.querySelector(".recommendation-info div").innerText = thumbsUp ? "Recommended" : "Not Recommended";
+        }
         
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];

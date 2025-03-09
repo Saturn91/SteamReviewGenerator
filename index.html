@@ -13,11 +13,13 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            padding-bottom: 8px;
         }
         .container {
             width: 616px;
             background: #2a475e;
             padding: 20px;
+            padding-bottom: 0px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
@@ -28,6 +30,8 @@
             font-size: 14px;
             margin-bottom: 10px;
             resize: vertical; /* Prevent horizontal resizing */
+            background-color: #16202d;
+            color: white;
         }
         .review {
             background: #16202d;
@@ -103,10 +107,29 @@
         button:hover {
             background: #4a9ed7;
         }
+        .error {
+            color: red;
+            display: none;
+        }
+        .copyright {
+            font-size: 12px;
+            color: #8f98a0;
+            margin-top: 40px;
+        }
+        a {
+            color: #66c0f4;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Steam Review Generator</h1>
+        <div class="disclaimer" style="margin-bottom: 20px; font-size: 12px; color: #8f98a0;">
+            <p>Term of use: By using this tool, you agree to use it solely for comedy and memes. You also agree to clearly indicate in your posts that the generated reviews are fake. Misuse of this tool for deceptive purposes is strictly prohibited.</p>
+            <label style="color: white; font-size: 16px;">I will not advertise this as a real review!</label><input type="checkbox" id="accept" onchange="onAcceptChange()">
+            <div class="error" id="error">please accept the term of use!</div>
+        </div>
         <textarea id="reviewInput" placeholder="Enter your review..."></textarea>
         <button onclick="generateReview()">Generate Review</button>
         <label style="margin-left: 8px;">positive review</label><input type="checkbox" id="positive" checked onchange="changeRecommendation()">
@@ -135,7 +158,8 @@
             </div>
             <div class="watermark">Fake review by saturn91.dev</div>
         </div>
-    </div>
+        <p class="copyright">&copy; 2025 <a href="https://saturn91.dev/">saturn91.dev</a>. All rights reserved.</p>
+    </div>    
 
     <script>
         const usernames = [
@@ -155,6 +179,15 @@
             "PhantomHunter", 
             "VortexRider"
         ];
+
+        const positivePlaceHolder = "This game is absolutely amazing! The graphics are stunning, the gameplay is smooth, and the storyline is captivating. I couldn't put it down once I started playing. The developers did a fantastic job, and I highly recommend this game to anyone looking for an immersive gaming experience. 10/10 would play again!";
+        const negativePlaceHolder = "This game is terrible! The graphics are outdated, the gameplay is clunky, and the storyline is boring. I regret spending money on this game and would not recommend it to anyone. Save your money and play something else.";
+
+        function onAcceptChange() {
+            if (document.getElementById("accept").checked) {
+                document.getElementById("error").style.display = "none";
+            }
+        }
 
         function changeRecommendation() {
             const thumbsUp = document.getElementById("positive").checked;
@@ -180,10 +213,20 @@
         }
 
         function generateReview() {
+            const accept = document.getElementById("accept").checked;
+            if (!accept) {
+                document.getElementById("error").style.display = "block";
+                return;
+            }
             fetchProfileImage();
             
             const reviewText = document.getElementById("reviewInput").value.trim();
-            document.getElementById("reviewText").innerText = reviewText || "Your review will appear here...";
+            if (reviewText.length === 0) {
+                document.getElementById("reviewText").innerText = document.getElementById("positive").checked ? positivePlaceHolder : negativePlaceHolder;
+                return;
+            } else {
+                document.getElementById("reviewText").innerText = reviewText
+            }
             document.getElementById("username").innerText = getRandomElement(usernames);
             document.getElementById("reviews").innerText = getRandomReviews();
             document.getElementById("playtime").innerText = Math.floor(Math.random() * 50) + "." + Math.floor(Math.random() * 50) + " hrs on record";

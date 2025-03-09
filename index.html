@@ -118,7 +118,7 @@
                     <div class="stats" id="reviews">6 reviews</div>
                 </div>
             </div>
-            <div class="posted">
+            <div class="posted" id="posted">
                 <div>POSTED: 27 MARCH, 2024</div>
             </div>
             <div class="recommendation">
@@ -138,7 +138,23 @@
     </div>
 
     <script>
-        const usernames = ["EpicGamer42", "NoobMaster69", "ShadowNinja", "xXProSniperXx", "GamerGirl2000"];
+        const usernames = [
+            "EpicGamer42", 
+            "NoobMaster69", 
+            "ShadowNinja", 
+            "xXProSniperXx", 
+            "GamerGirl2000", 
+            "DragonSlayer", 
+            "PixelWarrior", 
+            "StealthAssassin", 
+            "CyberKnight", 
+            "MysticMage", 
+            "RogueAgent", 
+            "BlazeFury", 
+            "ThunderStrike", 
+            "PhantomHunter", 
+            "VortexRider"
+        ];
 
         function changeRecommendation() {
             const thumbsUp = document.getElementById("positive").checked;
@@ -156,7 +172,7 @@
             const start = new Date(2023, 0, 1);
             const end = new Date();
             const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            return randomDate.toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' });
+            return randomDate.toLocaleDateString("en-GB", { day: '2-digit', month: 'long', year: 'numeric' });
         }
 
         function getRandomReviews() {
@@ -171,6 +187,7 @@
             document.getElementById("username").innerText = getRandomElement(usernames);
             document.getElementById("reviews").innerText = getRandomReviews();
             document.getElementById("playtime").innerText = Math.floor(Math.random() * 50) + "." + Math.floor(Math.random() * 50) + " hrs on record";
+            document.getElementById("posted").innerText = "POSTED: " + getRandomDate().toUpperCase();
         }
 
         function fetchProfileImage() {

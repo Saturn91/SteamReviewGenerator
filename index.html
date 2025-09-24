@@ -132,6 +132,18 @@
             <div class="error" id="error">please accept the term of use!</div>
         </div>
         <textarea id="reviewInput" placeholder="Enter your review..."></textarea>
+        
+        <div style="display: flex; gap: 20px; margin-bottom: 10px;">
+            <div>
+                <label style="font-size: 14px; display: block; margin-bottom: 5px;">Date Posted:</label>
+                <input type="text" id="dateInput" placeholder="e.g. 27 MARCH, 2024" style="padding: 5px; background-color: #16202d; color: white; border: 1px solid #66c0f4; border-radius: 3px; width: 200px;">
+            </div>
+            <div>
+                <label style="font-size: 14px; display: block; margin-bottom: 5px;">Hours Played:</label>
+                <input type="number" id="hoursInput" placeholder="e.g. 1.9" step="0.1" min="0" style="padding: 5px; background-color: #16202d; color: white; border: 1px solid #66c0f4; border-radius: 3px; width: 100px;">
+            </div>
+        </div>
+        
         <button onclick="generateReview()">Generate Review</button>
         <label style="margin-left: 8px;">positive review</label><input type="checkbox" id="positive" checked onchange="changeRecommendation()">
         <div class="review" id="reviewPreview">
@@ -230,8 +242,22 @@
             }
             document.getElementById("username").innerText = getRandomElement(usernames);
             document.getElementById("reviews").innerText = getRandomReviews();
-            document.getElementById("playtime").innerText = Math.floor(Math.random() * 50) + "." + Math.floor(Math.random() * 50) + " hrs on record";
-            document.getElementById("posted").innerText = "POSTED: " + getRandomDate().toUpperCase();
+            
+            // Use custom hours if provided, otherwise generate random
+            const customHours = document.getElementById("hoursInput").value.trim();
+            if (customHours && !isNaN(parseFloat(customHours))) {
+                document.getElementById("playtime").innerText = parseFloat(customHours).toFixed(1) + " hrs on record";
+            } else {
+                document.getElementById("playtime").innerText = Math.floor(Math.random() * 50) + "." + Math.floor(Math.random() * 50) + " hrs on record";
+            }
+            
+            // Use custom date if provided, otherwise generate random
+            const customDate = document.getElementById("dateInput").value.trim();
+            if (customDate) {
+                document.getElementById("posted").innerText = "POSTED: " + customDate.toUpperCase();
+            } else {
+                document.getElementById("posted").innerText = "POSTED: " + getRandomDate().toUpperCase();
+            }
         }
 
         function fetchProfileImage() {
